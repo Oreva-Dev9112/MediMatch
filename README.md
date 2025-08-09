@@ -1,6 +1,6 @@
 # MediMatch – AI-Powered Drug Interaction Checker
 
-![MediMatch Banner](link-to-banner)
+![MediMatch Banner]
 
 **Transforming healthcare with real-time, intelligent drug interaction analysis.**  
 Built with **Next.js, TypeScript, Tailwind CSS, Supabase, and Framer Motion** for a fast, accessible, and responsive experience.
@@ -34,7 +34,7 @@ MediMatch makes it simple for patients and healthcare professionals to **check d
 ## 📸 Screenshots
 | Home | Interaction Result |
 |------|-------------------|
-| ![Home](link-to-home-screenshot) | ![Result](link-to-result-screenshot) |
+| ![Home](🏠) | ![Result](🆗) |
 
 ---
 

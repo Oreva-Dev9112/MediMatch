@@ -18,8 +18,8 @@ These come first, because a drug checker must never look "safe" when it doesn't 
 - [x] Add `.env.example`.
 - [ ] Add a database setup guide: the table schema plus a script that loads the DDInter data into Supabase, so anyone can run MediMatch locally.
 - [ ] Replace the placeholder screenshots with real ones.
-- [ ] Fix the broken "Live Demo" link at the bottom of the README.
-- [ ] Remove claims that aren't built yet (fuzzy search, WCAG compliance, GitHub Actions CI), or build them (see below).
+- [x] Fix the broken "Live Demo" link at the bottom of the README.
+- [x] Remove claims that aren't built yet (fuzzy search, WCAG compliance, GitHub Actions CI) and the "AI-Powered" wording on the page.
 
 ## 3. Tests and CI
 

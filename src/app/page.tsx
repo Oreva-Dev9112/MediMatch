@@ -296,7 +296,7 @@ export default function Home() {
                   transition={{ duration: 4, repeat: Infinity }}
                 >
                   <Sparkles className="h-5 w-5" style={{ color: '#1C5378' }} />
-                  Intelligent Drug Interaction Analysis
+                  Drug Interaction Lookup
                   <Sparkles className="h-5 w-5" style={{ color: '#DE6063' }} />
                 </motion.div>
               </div>
@@ -455,11 +455,11 @@ export default function Home() {
                     <Activity className="h-7 w-7" style={{ color: '#FEFAEF' }} />
                   </motion.div>
                   <div style={{ color: '#DE6063' }}>
-                    System Intelligence
+                    About the Data
                   </div>
                 </CardTitle>
                 <CardDescription style={{ color: '#FEFAEF', fontSize: '1.25rem' }}>
-                  Advanced analysis capabilities & status
+                  Where the results come from
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-8">
@@ -475,8 +475,8 @@ export default function Home() {
                     whileHover={{ scale: 1.08, y: -5 }}
                     className="p-6 rounded-3xl border backdrop-blur-sm" style={{ backgroundColor: '#DE6063', borderColor: '#464C4330' }}
                   >
-                    <div className="text-3xl font-bold" style={{ color: '#FFFFFF' }}>AI-Powered</div>
-                    <div className="mt-2" style={{ color: '#FFFFFF', fontSize: '1rem' }}>Analysis</div>
+                    <div className="text-3xl font-bold" style={{ color: '#FFFFFF' }}>DDInter</div>
+                    <div className="mt-2" style={{ color: '#FFFFFF', fontSize: '1rem' }}>Dataset</div>
                   </motion.div>
                 </div>
                 

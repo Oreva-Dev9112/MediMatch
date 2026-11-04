@@ -2,6 +2,24 @@
 
 MediMatch is a drug–drug interaction lookup built on the public DDInter dataset. It stores no user data: no accounts, no saved searches, no patient records. Everything below keeps it that way.
 
+## Where this is heading
+
+Big free interaction checkers already exist. MediMatch's aim is narrower: **the simplest trustworthy way for a carer to check a whole list of someone's medicines**, and take the answer to a pharmacist or GP.
+
+That means four things, in this order:
+
+1. **Trustworthy.** It never says "no interaction" when it doesn't actually know. Every result shows where it came from (the dataset and its version).
+2. **Built for medicine lists.** Check every pair in a list of medicines at once, using generic or UK brand names, with results in plain English.
+3. **Easy to take to an appointment.** A clear printable or shareable summary, with questions to ask the pharmacist.
+4. **Private by design.** No accounts, no tracking, nothing stored. A shared result lives only in its link.
+
+Before promoting MediMatch more widely:
+
+- [ ] Check the DDInter data licence and show the required credit in the app.
+- [ ] Show the data source and version on every result.
+
+## The plan
+
 Items are in priority order. Each one has (or will have) a matching GitHub issue.
 
 ## 1. Safety fixes

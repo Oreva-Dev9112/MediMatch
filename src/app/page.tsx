@@ -58,14 +58,17 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to check drug interaction");
+        // Show the server's own message when it gives one (e.g. "we couldn't check this pair")
+        const message = await response.json().then((d) => d?.error).catch(() => null);
+        throw new Error(message || "Failed to check drug interaction");
       }
 
       const data = await response.json();
       setResult(data);
       setShowResults(true); // Open the modal when results are available
     } catch (err) {
-      setError("An error occurred while checking drug interactions. Please try again.");
+      const message = err instanceof Error && err.message !== "Failed to check drug interaction" ? err.message : null;
+      setError(message || "An error occurred while checking drug interactions. Please try again.");
     } finally {
       setLoading(false);
     }

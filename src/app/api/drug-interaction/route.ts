@@ -61,11 +61,12 @@ export async function POST(request: NextRequest) {
 
     // Helper: attempts reads for both schema variants and both drug orders (A→B and B→A).
     // This keeps the handler tolerant of upstream CSVs/dbs with slightly different naming.
-    async function findInteractionInTable(tableName: string) {
+    // `answered` is true only if one schema variant ran cleanly in both orders. The variant that
+    // doesn't match the table always errors, so one failing variant is normal; both failing means
+    // we couldn't actually check (missing table, outage) and must not report "no interaction".
+    async function findInteractionInTable(tableName: string): Promise<{ interaction: DrugInteraction | null; answered: boolean }> {
       const like1 = `%${normalizedDrug1}%`;
       const like2 = `%${normalizedDrug2}%`;
-
-      let hadError = false;
 
       // Variant A: legacy columns drug1/drug2/severity (old local schema)
       const firstA = await supabase
@@ -76,7 +77,7 @@ export async function POST(request: NextRequest) {
         .limit(1);
 
       if (!firstA.error && firstA.data && firstA.data.length > 0) {
-        return firstA.data[0] as DrugInteraction;
+        return { interaction: firstA.data[0] as DrugInteraction, answered: true };
       }
 
       // Variant B: DDInter-like columns primary_drug_name/secondary_drug_name/interaction_severity
@@ -95,12 +96,15 @@ export async function POST(request: NextRequest) {
         };
         const severity = normalizeSeverity(row.interaction_severity);
         return {
-          drug1: row.primary_drug_name,
-          drug2: row.secondary_drug_name,
-          severity,
-          description: undefined,
-          interaction: undefined,
-        } satisfies DrugInteraction;
+          interaction: {
+            drug1: row.primary_drug_name,
+            drug2: row.secondary_drug_name,
+            severity,
+            description: undefined,
+            interaction: undefined,
+          } satisfies DrugInteraction,
+          answered: true,
+        };
       }
 
       // Second order (swapped): we also look for B→A
@@ -112,7 +116,7 @@ export async function POST(request: NextRequest) {
         .limit(1);
 
       if (!secondA.error && secondA.data && secondA.data.length > 0) {
-        return secondA.data[0] as DrugInteraction;
+        return { interaction: secondA.data[0] as DrugInteraction, answered: true };
       }
 
       const secondB = await supabase
@@ -130,16 +134,19 @@ export async function POST(request: NextRequest) {
         };
         const severity = normalizeSeverity(row.interaction_severity);
         return {
-          drug1: row.primary_drug_name,
-          drug2: row.secondary_drug_name,
-          severity,
-          description: undefined,
-          interaction: undefined,
-        } satisfies DrugInteraction;
+          interaction: {
+            drug1: row.primary_drug_name,
+            drug2: row.secondary_drug_name,
+            severity,
+            description: undefined,
+            interaction: undefined,
+          } satisfies DrugInteraction,
+          answered: true,
+        };
       }
 
-      if (firstA.error || firstB.error || secondA.error || secondB.error) {
-        hadError = true;
+      const answered = (!firstA.error && !secondA.error) || (!firstB.error && !secondB.error);
+      if (!answered) {
         const errors = [firstA.error, firstB.error, secondA.error, secondB.error]
           .filter(Boolean)
           .map((e) => (e as any).message)
@@ -147,7 +154,7 @@ export async function POST(request: NextRequest) {
         console.error(`Supabase read errors for table ${tableName}:`, errors);
       }
 
-      return hadError ? null : null;
+      return { interaction: null, answered };
     }
 
     // Try common table naming variants. Prefer an explicit env var so different deployments
@@ -159,14 +166,25 @@ export async function POST(request: NextRequest) {
     ];
 
     let interaction: DrugInteraction | null = null;
+    let anyAnswered = false;
     for (const tableName of tableCandidates) {
       try {
-        interaction = await findInteractionInTable(tableName);
+        const result = await findInteractionInTable(tableName);
+        anyAnswered ||= result.answered;
+        interaction = result.interaction;
         if (interaction) break;
       } catch (e) {
         // If specific table fails due to RLS/policy or missing table, try next candidate
         continue;
       }
+    }
+
+    // Nothing found and no table could actually be searched: that's an error, not "safe".
+    if (!interaction && !anyAnswered) {
+      return NextResponse.json(
+        { error: "We couldn't check this pair right now. Please try again in a moment." },
+        { status: 503 }
+      );
     }
 
     if (interaction) {

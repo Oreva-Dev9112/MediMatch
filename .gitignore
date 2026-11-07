@@ -47,5 +47,3 @@ test
 prompt
 
 server.log
-# allow the example env file
-!.env.example

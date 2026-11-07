@@ -20,7 +20,7 @@ import { motion, AnimatePresence } from "framer-motion";
 interface DrugInteraction {
   drug1: string;
   drug2: string;
-  severity: "Major" | "Moderate" | "Minor" | "None";
+  severity: "Major" | "Moderate" | "Minor" | "Unknown" | "None";
   description?: string;
   interaction?: string;
 }
@@ -84,6 +84,8 @@ export default function Home() {
         return <AlertTriangle className="h-10 w-10" style={{ color: '#1C5378' }} />;
       case "Minor":
         return <Info className="h-10 w-10" style={{ color: '#464C43' }} />;
+      case "Unknown":
+        return <AlertTriangle className="h-10 w-10" style={{ color: '#D97706' }} />;
       case "None":
         return <CheckCircle className="h-10 w-10" style={{ color: '#19343F' }} />;
       default:
@@ -124,6 +126,16 @@ export default function Home() {
           card: "border-l-gray-500",
           glow: "shadow-gray-500/30",
           particles: "bg-gray-400"
+        };
+      case "Unknown":
+        return {
+          bg: "bg-amber-500",
+          border: "border-amber-400/30",
+          text: "text-amber-300",
+          badge: "bg-amber-500/20 text-amber-300 border-amber-400/50",
+          card: "border-l-amber-500",
+          glow: "shadow-amber-500/30",
+          particles: "bg-amber-400"
         };
       case "None":
         return {
@@ -167,10 +179,15 @@ export default function Home() {
           "Low likelihood of serious issues; mild effects may occur.",
           "No routine changes needed; continue usual monitoring.",
         ];
+      case "Unknown":
+        return [
+          "An interaction between these medicines is recorded, but how serious it is hasn't been graded.",
+          "Don't assume it's safe: ask a pharmacist or doctor before taking them together.",
+        ];
       default:
         return [
-          "No significant interaction found in our database.",
-          "Still monitor for unexpected symptoms and consult your provider if concerned.",
+          "No interaction between these medicines is recorded in DDInter.",
+          "That isn't a guarantee they're safe together; check with a pharmacist if you're unsure.",
         ];
     }
   };

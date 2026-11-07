@@ -1,6 +1,6 @@
 # MediMatch Roadmap
 
-MediMatch is a drug–drug interaction lookup built on the public DDInter dataset. It stores no user data: no accounts, no saved searches, no patient records. Everything below keeps it that way.
+MediMatch is a drug–drug interaction lookup built on the public DDInter dataset, bundled with the app (no database). It stores no user data: no accounts, no saved searches, no patient records. Everything below keeps it that way.
 
 ## Where this is heading
 
@@ -27,14 +27,15 @@ Items are in priority order. Each one has (or will have) a matching GitHub issue
 These come first, because a drug checker must never look "safe" when it doesn't actually know.
 
 - [x] **Treat database errors as errors, not "no interaction".** Today, if the Supabase query fails, the API returns severity `None`, which the UI shows as safe. It should return an error and the UI should say "We couldn't check this pair. Please try again."
-- [ ] **Separate "no known interaction" from "drug not in our data".** If either drug isn't in the dataset, say so clearly instead of returning `None`.
-- [ ] **Stop partial matches picking the wrong drug.** Searches use a partial `ilike` match and take the first row, so a short or misspelled name can match a different drug. Match exact names first, and offer "Did you mean…?" suggestions otherwise.
+- [x] **Separate "no known interaction" from "drug not in our data".** If either drug isn't in the dataset, say so clearly instead of returning `None`.
+- [x] **Show "severity unknown" instead of "no interaction".** About a fifth of DDInter's pairs are recorded without a severity grade; these used to show as no interaction.
+- [x] **Stop partial matches picking the wrong drug.** Searches use a partial `ilike` match and take the first row, so a short or misspelled name can match a different drug. Match exact names first, and offer "Did you mean…?" suggestions otherwise.
 
 ## 2. Make the README match the project
 
 - [x] Add a `LICENSE` file (MIT).
 - [x] Add `.env.example`.
-- [ ] Add a database setup guide: the table schema plus a script that loads the DDInter data into Supabase, so anyone can run MediMatch locally.
+- [x] Drop the database: the DDInter data ships with the app (`src/data/interactions.json`, built by `scripts/build-interactions.mjs`), so anyone can clone and run it with no setup.
 - [ ] Replace the placeholder screenshots with real ones.
 - [x] Fix the broken "Live Demo" link at the bottom of the README.
 - [x] Remove claims that aren't built yet (fuzzy search, WCAG compliance, GitHub Actions CI) and the "AI-Powered" wording on the page.

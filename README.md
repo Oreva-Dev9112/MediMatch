@@ -90,4 +90,8 @@ Bug reports and suggestions are welcome. Please [open an issue](https://github.c
 
 Code: [MIT](LICENSE).
 
-The DDInter data is not part of this repository and has its own terms. Check the [DDInter website](https://ddinter.scbdd.com/) before reusing it.
+## Data credit
+
+Interaction data comes from **DDInter**, by Xiong G. et al., *DDInter: an online drug–drug interaction database towards improving clinical decision-making and patient safety*, Nucleic Acids Research 50, D1200–D1207 (2022), [doi:10.1093/nar/gkab880](https://doi.org/10.1093/nar/gkab880).
+
+DDInter's [terms](https://ddinter.scbdd.com/terms/) license its data under [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/): non-commercial use, with credit, and shared under the same licence. MediMatch is free and non-commercial, credits DDInter on every page, and does not include the data in this repository.

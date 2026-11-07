@@ -15,7 +15,7 @@ That means four things, in this order:
 
 Before promoting MediMatch more widely:
 
-- [ ] Check the DDInter data licence and show the required credit in the app.
+- [x] Check the DDInter data licence and show the required credit in the app (CC BY-NC-SA 4.0).
 - [ ] Show the data source and version on every result.
 
 ## The plan
@@ -26,7 +26,7 @@ Items are in priority order. Each one has (or will have) a matching GitHub issue
 
 These come first, because a drug checker must never look "safe" when it doesn't actually know.
 
-- [ ] **Treat database errors as errors, not "no interaction".** Today, if the Supabase query fails, the API returns severity `None`, which the UI shows as safe. It should return an error and the UI should say "We couldn't check this pair. Please try again."
+- [x] **Treat database errors as errors, not "no interaction".** Today, if the Supabase query fails, the API returns severity `None`, which the UI shows as safe. It should return an error and the UI should say "We couldn't check this pair. Please try again."
 - [ ] **Separate "no known interaction" from "drug not in our data".** If either drug isn't in the dataset, say so clearly instead of returning `None`.
 - [ ] **Stop partial matches picking the wrong drug.** Searches use a partial `ilike` match and take the first row, so a short or misspelled name can match a different drug. Match exact names first, and offer "Did you mean…?" suggestions otherwise.
 

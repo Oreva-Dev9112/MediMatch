@@ -645,6 +645,12 @@ export default function Home() {
                     before making any changes to your medication regimen. The information provided may not be 
                     complete or up-to-date. In case of emergency, contact your healthcare provider immediately.
                   </AlertDescription>
+                  <AlertDescription className="text-sm leading-relaxed mt-3" style={{ color: '#FFFFFF' }}>
+                    Interaction data from{" "}
+                    <a href="https://ddinter.scbdd.com/" target="_blank" rel="noreferrer" className="underline">DDInter</a>{" "}
+                    (Xiong et al., Nucleic Acids Research, 2022), used under{" "}
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noreferrer" className="underline">CC BY-NC-SA 4.0</a>.
+                  </AlertDescription>
                 </Alert>
               </CardContent>
             </Card>
